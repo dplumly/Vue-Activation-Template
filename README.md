@@ -48,6 +48,32 @@ npm run dev
 ```
 - Runs Vue app (default: `http://localhost:5173`)
 
+## Starting a Session
+```js
+import { startSession, logClick } from '@/utils/logger.js'
+
+function goNext() {
+    startSession()
+    logClick('Start Button Clicked', 'Attract')
+    router.push('/instructions')
+}
+```
+
+
+## Ending a Session
+```js
+import { endSession, logClick } from '@/utils/logger.js'
+
+const router = useRouter()
+
+function finish() {
+    endSession()
+    logClick('Finish Button Clicked', 'Cta')
+    router.push('/')
+}
+```
+
+
 ## Logging Button Clicks
 1. Import the logger in any Vue component:
 ```js
@@ -57,7 +83,7 @@ import { logClick } from '@/utils/logger.js'
 ```js
 function goNext() {
   logClick('Start Button Clicked', 'Attract')
-  router.push('/page1')
+  router.push('/pageName')
 }
 ```
 - `action`: string describing the button click

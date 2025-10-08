@@ -1,54 +1,61 @@
 <template>
-  <div class="app-container">
-    <!-- Background videos -->
-    <video
-      autoplay muted loop playsinline
-      class="bg-video attract"
-      :class="{ visible: currentPath === '/' }"
-    >
-      <source src="/videos/attract-bg.mp4" type="video/mp4" />
-    </video>
+    <div class="app-container">
+        <!-- Attract background video -->
+        <video
+            autoplay muted loop playsinline
+            class="bg-video attract"
+            :class="{ visible: currentPath === '/' }"
+            >
+            <source src="/videos/4k-attract-bg.mp4" type="video/mp4" />
+        </video>
 
-    <video
-      autoplay muted loop playsinline
-      class="bg-video main"
-      :class="{ visible: currentPath !== '/' }"
-    >
-      <source src="/videos/main-bg.mp4" type="video/mp4" />
-    </video>
+        <!-- Main app background video -->
+        <video
+            autoplay muted loop playsinline
+            class="bg-video main"
+            :class="{ visible: currentPath !== '/' }"
+            >
+            <source src="/videos/4k-main-bg.mp4" type="video/mp4" />
+        </video>
 
-    <!-- Routed content -->
-    <router-view v-slot="{ Component }">
-      <transition name="fade" mode="out-in">
-        <component :is="Component" />
-      </transition>
-    </router-view>
 
-    <!-- Timeout Modal -->
-    <div v-if="showModal" class="modal-backdrop">
-      <div class="modal">
-        <img id="eyes-gif" src="/img/eyes.gif"></img>
-        <h2 id="modal-header">Are you still there?</h2>
-        <p id="countdown">{{ countdown }}</p>
-        <div class="buttons">
-          <button @click="restart">Restart</button>
-          <button @click="continueSession">Continue</button>
+
+        <!-- Routed content -->
+        <router-view v-slot="{ Component }">
+            <transition name="fade" mode="out-in">
+                <component :is="Component" />
+            </transition>
+        </router-view>
+
+
+
+        <!-- Timeout Modal -->
+        <div v-if="showModal" class="modal-backdrop">
+            <div class="modal">
+                <img id="eyes-gif" src="/img/eyes.gif"></img>
+                <h2 id="modal-header">Are you still there?</h2>
+                <p id="countdown">{{ countdown }}</p>
+                <div class="buttons">
+                    <button @click="restart">Restart</button>
+                    <button @click="continueSession">Continue</button>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </template>
 
 <script setup>
 import { ref, watch, onMounted, onBeforeUnmount } from "vue"
 import { useRoute, useRouter } from "vue-router"
+import { endSession } from "@/utils/logger.js"   
+
 
 const route = useRoute()
 const router = useRouter()
 const currentPath = ref(route.path)
 
 let inactivityTimer = null
-const INACTIVITY_LIMIT = 60000 // 60s
+const INACTIVITY_LIMIT = 60000 // 60s - Set this to the amoutnt of inactivitity you'e like
 
 const showModal = ref(false)
 const countdown = ref(10)
@@ -65,7 +72,7 @@ function resetInactivityTimer() {
 
 function openModal() {
   showModal.value = true
-  countdown.value = 10
+  countdown.value = 10 // Set this to the amount on the countdown you'd like
   startCountdown()
 }
 
@@ -90,8 +97,9 @@ function continueSession() {
 }
 
 function restart() {
-  closeModal()
-  router.push("/")
+    endSession() 
+    closeModal()
+    router.push("/")
 }
 
 function activityListener() {
@@ -130,66 +138,48 @@ onBeforeUnmount(() => {
 })
 </script>
 
-<style>
-html, body, #app {
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden; /* stop scrolling */
-}
 
+
+<style>
 .app-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
 /* Videos stay pinned behind everything */
 .bg-video {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: -1;            /* below content */
-  opacity: 0;
-  transition: opacity 1s ease;
-  pointer-events: none;   /* so they don’t block clicks */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;            /* below content */
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    pointer-events: none;   /* so they don’t block clicks */
 }
 
 .bg-video.visible {
-  opacity: 1;
+    opacity: 1;
 }
 
-/* Routed page content fills screen */
-.router-view,
-.page-content {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 1;
-  color: white;
-}
-
-/* Timeout Modal */
+/* ================================
+Timeout Modal 
+================================*/
 .modal-backdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
 }
 
 .modal {
@@ -199,8 +189,8 @@ html, body, #app {
     padding: 2rem;
     border-radius: 75px;
     text-align: center;
-    width: 1000px;
-    height: 1000px;
+    width: 1200px;
+    height: 1200px;
 }
 
 #eyes-gif {
@@ -218,15 +208,16 @@ html, body, #app {
 }
 
 .buttons {
-  display: flex;
-  justify-content: space-around;
-  margin-top: 120px;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 120px;
 }
 
 .buttons button {
-    padding: 10px 75px;
+    padding: 15px 75px;
     font-size: 4rem;
     cursor: pointer;
     border-radius: 50px;
+    border: none;
 }
 </style>

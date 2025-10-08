@@ -1,35 +1,136 @@
-@import './base.css';
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  font-weight: normal;
+
+/*=========================================================
+
+Global Styles
+
+=========================================================*/
+html, body, #app {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* stop scrolling */
+    font-family: "SalesforceSans-Regular", sans-serif;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
-}
-
-@media (hover: hover) {
-  a:hover {
-    background-color: hsla(160, 100%, 37%, 0.2);
-  }
-}
-
-@media (min-width: 1024px) {
-  body {
+#content-container {
     display: flex;
-    place-items: center;
-  }
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center;     
+    min-height: 100vh;      
+    padding: 10rem;
+}
 
-  #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding: 0 2rem;
-  }
+.page-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    color: white;
+    z-index: 0;
+}
+
+button {
+    padding: 30px 200px;
+    font-size: 70px;
+    cursor: pointer;
+    border-radius: 70px;
+    border: none;
+}
+
+.bottom-button {
+    position: absolute;   
+    left: 50%;           
+    transform: translateX(-50%);
+    bottom: 400px;       
+}
+
+h1 { font-size: 10em; }   /* 160px */
+h2 { font-size: 6em; }    /* 96px */
+h3 { font-size: 4em; }    /* 64px */
+h4 { font-size: 2.5em; }  /* 40px */
+h5 { font-size: 2em; }    /* 32px */
+h6 { font-size: 1.5em; }  /* 24px */
+p  { font-size: 1.25em; } /* 20px */
+
+/*=========================================================
+
+Global Page Transisions
+
+=========================================================*/
+.fade-enter-active,
+.fade-leave-active {
+    transition: opacity 0.5s ease-in-out;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+    opacity: 0;
+}
+
+/*=========================================================
+
+Salesforce Fonts
+
+=========================================================*/
+
+/* Avant Garde Demi */
+@font-face {
+    font-family: 'AvantGardeForSalesforce-Demi';
+    src: url('/fonts/AvantGardeForSalesforce-Demi.otf');
+    src: url('/fonts/AvantGardeForSalesforceW05-Dm.woff') format('woff'),
+         url('/fonts/AvantGardeForSalesforce-Demi.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+/* Salesforce Sans */
+@font-face {
+    font-family: 'SalesforceSans-Bold';
+    src: url('/fonts/SalesforceSans-Bold.woff2') format('woff2'),
+         url('/fonts/SalesforceSans-Bold.woff') format('woff'),
+         url('/fonts/SalesforceSans-Bold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SalesforceSans-Semibold';
+    src: url('/fonts/SalesforceSans-Semibold.woff2') format('woff2'),
+         url('/fonts/SalesforceSans-Semibold.woff') format('woff'),
+         url('/fonts/SalesforceSans-Semibold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SalesforceSans-Book';
+    src: url('/fonts/SalesforceSans-Book.woff2') format('woff2'),
+         url('/fonts/SalesforceSans-Book.woff') format('woff'),
+         url('/fonts/SalesforceSans-Book.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SalesforceSans-Regular';
+    src: url('/fonts/SalesforceSans-Regular.woff2') format('woff2'),
+         url('/fonts/SalesforceSans-Regular.woff') format('woff'),
+         url('/fonts/SalesforceSans-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SalesforceSans-Light';
+    src: url('/fonts/SalesforceSans-Light.woff2') format('woff2'),
+         url('/fonts/SalesforceSans-Light.woff') format('woff'),
+         url('/fonts/SalesforceSans-Light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }
