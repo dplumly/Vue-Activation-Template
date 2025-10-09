@@ -1,4 +1,0 @@
-/backend/node_modules
-
-# anywhere in .gitignore
-node_modules/
