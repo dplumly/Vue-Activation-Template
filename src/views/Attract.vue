@@ -1,35 +1,32 @@
 <template>
-  <div class="page-content">
-    <h1>Welcome</h1>
-    <button @click="goNext">Start</button>
-  </div>
+    <div class="page-content">
+        <!-- Text fade -->
+        <Transition name="fade">
+            <div id="content-container">
+                <div v-if="true" class="fade-group">
+                    <h1>Attract video</h1>
+                    <button class="bottom-button" @click="goNext">Start</button>
+                </div>
+            </div>
+        </Transition>
+    </div>
 </template>
+
+
 
 <script setup>
 import { useRouter } from 'vue-router'
+import { startSession, logClick } from '@/utils/logger.js'
+
 const router = useRouter()
 function goNext() {
-  router.push('/page1')
+    startSession()
+
+    logClick('Start Button Clicked')
+    router.push('/instructions')
 }
 </script>
 
 <style scoped>
-.page-content {
-  position: relative;   /* keeps it above video */
-  z-index: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  color: white;
-  text-align: center;
-}
 
-button {
-  margin-top: 2rem;
-  padding: 1rem 2rem;
-  font-size: 1.5rem;
-  cursor: pointer;
-}
 </style>

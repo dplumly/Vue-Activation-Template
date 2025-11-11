@@ -1,12 +1,14 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Attract from '../views/Attract.vue'
-import Page1 from '../views/Page1.vue'
-import Page2 from '../views/Page2.vue'
+import Instructions from '../views/Instructions.vue'
+import Selection from '../views/Selection.vue'
+import Cta from '../views/Cta.vue'
 
 const routes = [
-  { path: '/', name: 'Attract', component: Attract },
-  { path: '/page1', name: 'Page1', component: Page1 },
-  { path: '/page2', name: 'Page2', component: Page2 },
+    { path: '/', name: 'Attract', component: Attract },
+    { path: '/instructions', name: 'Instructions', component: Instructions },
+    { path: '/selection', name: 'Selection', component: Selection },
+    { path: '/cta', name: 'Cta', component: Cta },
 ]
 
 const router = createRouter({
