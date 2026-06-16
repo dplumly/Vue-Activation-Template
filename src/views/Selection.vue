@@ -14,12 +14,12 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
-import { logClick } from '@/utils/logger.js'
+// import { logClick } from '@/utils/logger.js'
 
 const router = useRouter()
 
 function goCta() {
-    logClick('CTA Button Clicked')
+    // logClick('CTA Button Clicked')
   router.push('/cta') 
 }
 </script>

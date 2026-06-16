@@ -2,10 +2,10 @@
     <div class="page-content">
         <!-- Text fade -->
         <Transition name="fade">
-            <div id="content-container">
+            <div class="content-container">
                 <div v-if="true" class="fade-group">
                     <h1>Attract video</h1>
-                    <button class="bottom-button" @click="goNext">Start</button>
+                    <button class="bottom-button" @click="goNext">Tap to Start</button>
                 </div>
             </div>
         </Transition>
@@ -16,13 +16,12 @@
 
 <script setup>
 import { useRouter } from 'vue-router'
-import { startSession, logClick } from '@/utils/logger.js'
+// import { startSession, logClick } from '@/utils/logger.js'
 
 const router = useRouter()
 function goNext() {
-    startSession()
-
-    logClick('Start Button Clicked')
+    // startSession()
+    // logClick('Start Button Clicked')
     router.push('/instructions')
 }
 </script>

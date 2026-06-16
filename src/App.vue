@@ -1,144 +1,116 @@
 <template>
-    <div class="app-container">
-        <!-- Attract background video -->
-        <video
-            autoplay muted loop playsinline
-            class="bg-video attract"
-            :class="{ visible: currentPath === '/' }"
-            >
-            <source src="/videos/4k-attract-bg.mp4" type="video/mp4" />
-        </video>
+  <div class="app-container">
 
-        <!-- Main app background video -->
-        <video
-            autoplay muted loop playsinline
-            class="bg-video main"
-            :class="{ visible: currentPath !== '/' }"
-            >
-            <source src="/videos/4k-main-bg.mp4" type="video/mp4" />
-        </video>
+    <div id="invisibleReset" ref="resetDiv" @touchstart.passive="handleInvisibleTap" />
+
+    <!-- Attract background video -->
+    <video
+        autoplay muted loop playsinline
+        class="bg-video attract"
+        :class="{ visible: currentPath === '/' }"
+        >
+        <source src="/videos/4k-attract-bg.mp4" type="video/mp4" />
+    </video>
 
 
+    <!-- Main app background video -->
+    <video
+        autoplay muted loop playsinline
+        class="bg-video main"
+        :class="{ visible: currentPath !== '/' }"
+        >
+        <source src="/videos/4k-main-bg.mp4" type="video/mp4" />
+    </video>
 
-        <!-- Routed content -->
-        <router-view v-slot="{ Component }">
-            <transition name="fade" mode="out-in">
-                <component :is="Component" />
-            </transition>
-        </router-view>
+
+    <!-- Routed content transitions -->
+    <router-view v-slot="{ Component }">
+        <transition name="fade" mode="out-in">
+            <component :is="Component" />
+        </transition>
+    </router-view>
 
 
+    <!-- Timeout Modal component -->
+    <TimeoutModal 
+      :ignoreRoutes="['/']" 
+      @restart="handleRestart" 
+    />
 
-        <!-- Timeout Modal -->
-        <div v-if="showModal" class="modal-backdrop">
-            <div class="modal">
-                <img id="eyes-gif" src="/img/eyes.gif"></img>
-                <h2 id="modal-header">Are you still there?</h2>
-                <p id="countdown">{{ countdown }}</p>
-                <div class="buttons">
-                    <button @click="restart">Restart</button>
-                    <button @click="continueSession">Continue</button>
-                </div>
-            </div>
-        </div>
-    </div>
+  </div>
 </template>
 
 <script setup>
-import { ref, watch, onMounted, onBeforeUnmount } from "vue"
+import { ref, watch } from "vue"
 import { useRoute, useRouter } from "vue-router"
-import { endSession } from "@/utils/logger.js"   
+import TimeoutModal from "@/components/TimeoutModal.vue"
+import { onMounted, onBeforeUnmount } from 'vue'; // Scaler util
+// import { endSession } from "@/utils/logger.js"
 
 
-const route = useRoute()
+
+// Scaler util
+const updateScale = () => {
+  // 2160 is the design 'short side' (Width in Portrait / Height in Landscape)
+  const designShortSide = 2160; 
+  
+  // Detect current hardware's shortest side
+  const currentShortSide = Math.min(window.innerWidth, window.innerHeight);
+  
+  // Calculate multiplier (4K = 1.0, 1080p = 0.5)
+  const scale = currentShortSide / designShortSide;
+  
+  // Set the CSS variable globally
+  document.documentElement.style.setProperty('--res-scale', scale);
+};
+
+onMounted(() => {
+  updateScale();
+  window.addEventListener('resize', updateScale);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', updateScale);
+});
+
+
+
+// Restart handler (called by TimeoutModal when countdown ends or user clicks Restart)
+function handleRestart() {
+//   endSession()
+  router.push("/")
+}
+
+
 const router = useRouter()
+const route = useRoute()
 const currentPath = ref(route.path)
 
-let inactivityTimer = null
-const INACTIVITY_LIMIT = 60000 // 60s - Set this to the amoutnt of inactivitity you'e like
 
-const showModal = ref(false)
-const countdown = ref(10)
-let countdownTimer = null
-
-function resetInactivityTimer() {
-  clearTimeout(inactivityTimer)
-  inactivityTimer = setTimeout(() => {
-    if (currentPath.value !== "/") {
-      openModal()
-    }
-  }, INACTIVITY_LIMIT)
-}
-
-function openModal() {
-  showModal.value = true
-  countdown.value = 10 // Set this to the amount on the countdown you'd like
-  startCountdown()
-}
-
-function startCountdown() {
-  clearInterval(countdownTimer)
-  countdownTimer = setInterval(() => {
-    countdown.value--
-    if (countdown.value <= 0) {
-      restart()
-    }
-  }, 1000)
-}
-
-function closeModal() {
-  showModal.value = false
-  clearInterval(countdownTimer)
-}
-
-function continueSession() {
-  closeModal()
-  resetInactivityTimer()
-}
-
-function restart() {
-    endSession() 
-    closeModal()
-    router.push("/")
-}
-
-function activityListener() {
-  if (!showModal.value) {
-    resetInactivityTimer()
-  }
-}
-
+// Keep track of route for background video switching
 watch(
   () => route.path,
-  (newPath) => {
-    currentPath.value = newPath
-    resetInactivityTimer()
-  },
+    (newPath) => {
+        currentPath.value = newPath
+    },
   { immediate: true }
 )
 
-onMounted(() => {
-  window.addEventListener("mousemove", activityListener)
-  window.addEventListener("mousedown", activityListener)
-  window.addEventListener("keydown", activityListener)
-  window.addEventListener("touchstart", activityListener)
-  window.addEventListener("scroll", activityListener)
 
-  resetInactivityTimer()
-})
+// Invisible reset button
+let tapCount = 0
+let tapTimer = null
 
-onBeforeUnmount(() => {
-  clearTimeout(inactivityTimer)
-  clearInterval(countdownTimer)
-  window.removeEventListener("mousemove", activityListener)
-  window.removeEventListener("mousedown", activityListener)
-  window.removeEventListener("keydown", activityListener)
-  window.removeEventListener("touchstart", activityListener)
-  window.removeEventListener("scroll", activityListener)
-})
+function handleInvisibleTap() {
+    if (++tapCount === 3) {
+        tapCount = 0
+        router.push("/")
+        return
+    }
+    clearTimeout(tapTimer)
+    tapTimer = setTimeout(() => tapCount = 0, 500)
+}
 </script>
-
-
 
 <style>
 .app-container {
@@ -148,7 +120,6 @@ onBeforeUnmount(() => {
     overflow: hidden;
 }
 
-/* Videos stay pinned behind everything */
 .bg-video {
     position: fixed;
     top: 0;
@@ -156,68 +127,23 @@ onBeforeUnmount(() => {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: -1;            /* below content */
+    z-index: -1;
     opacity: 0;
     transition: opacity 0.5s ease;
-    pointer-events: none;   /* so they don’t block clicks */
+    pointer-events: none;
 }
 
 .bg-video.visible {
-    opacity: 1;
+  opacity: 1;
 }
 
-/* ================================
-Timeout Modal 
-================================*/
-.modal-backdrop {
-    position: fixed;
+#invisibleReset {
+    position: fixed;   
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.7);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-}
-
-.modal {
-    background: white;
-    opacity: .8;
-    color: black;
-    padding: 2rem;
-    border-radius: 75px;
-    text-align: center;
-    width: 1200px;
-    height: 1200px;
-}
-
-#eyes-gif {
-    width: 200px;
-}
-
-#modal-header {
-    font-size: 5rem;
-    margin-top: 0;
-}
-
-#countdown {
-    font-size: 300px;
-    margin: 0;
-}
-
-.buttons {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 120px;
-}
-
-.buttons button {
-    padding: 15px 75px;
-    font-size: 4rem;
-    cursor: pointer;
-    border-radius: 50px;
-    border: none;
+    width: 400px;
+    height: 400px;
+    z-index: 20;       
+    background: transparent;
 }
 </style>

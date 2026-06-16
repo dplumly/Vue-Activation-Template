@@ -1,0 +1,52 @@
+[
+  {
+    "text": "NNAOV = ACV – Attrition. Product teams directly impact both sides of this equation. Which product strategy has the greatest multiplier effect on NNAOV?",
+    "options": [
+      "Developing high-velocity, standalone features that can be sold quickly to new logos.",
+      "Creating seamless integrations across Customer 360 that increase portfolio stickiness and expand into new use cases.",
+      "Prioritizing individual feature requests to win specific high-value competitive bids.",
+      "Developing tactical, account-specific feature patches to rescue at-risk customers during the renewal window."
+    ],
+    "answer": "Creating seamless integrations across Customer 360 that increase portfolio stickiness and expand into new use cases."
+  },
+  {
+    "text": "Marketing owns PipeGen, but pipeline quality directly impacts NNAOV sustainability. What pipeline characteristic is the strongest predictor of long-term NNAOV contribution?",
+    "options": [
+      "Large-scale expansion deals that maximize top-line ACV.",
+      "High-velocity opportunities with short sales cycles to ensure immediate quarterly linearity.",
+      "Pipeline from customers who buy multiple products with success plans from Day 1.",
+      "Pipeline concentrated in net new logos versus existing customer expansion."
+    ],
+    "answer": "Pipeline from customers who buy multiple products with success plans from Day 1."
+  },
+  {
+    "text": "Even though sales teams often face pressure to close deals quickly, which selling behavior creates the most defensible NNAOV over a three-year customer lifetime?",
+    "options": [
+      "Prioritizing Land and Expand by leading with core seats now and planning to address implementation gaps after the initial signature.",
+      "Maximizing current quarter revenue by focusing on high-velocity, standalone products that provide immediate ROI without the complexity of a long-term roadmap.",
+      "Acting as a trusted advisor to secure the enterprise platform win, then phasing the Success Plan investment to Year 2 to reduce upfront budget friction.",
+      "Acting as a trusted advisor who sells enterprise transformation with the right balance of, implementation support, and success plans — even if it means a longer sales cycle."
+    ],
+    "answer": "Acting as a trusted advisor who sells enterprise transformation with the right balance of, implementation support, and success plans — even if it means a longer sales cycle."
+  },
+  {
+    "text": "Customer Success must operate \"at scale\" to impact NNAOV across the entire customer base. What does activating \"weak signals at scale\" actually mean in practice?",
+    "options": [
+      "Optimizing team capacity to ensure faster response times for escalated at-risk accounts and critical technical roadblocks.",
+      "Using data to proactively identify and engage customers showing early risk indicators (low usage, declining health scores, technical issues) before they become attrition cases.",
+      "Implementing high-touch manual health checks reserved for the top 5% of strategic accounts.",
+      "Automating generic monthly usage reports to all customers regardless of their actual business objectives."
+    ],
+    "answer": "Using data to proactively identify and engage customers showing early risk indicators (low usage, declining health scores, technical issues) before they become attrition cases."
+  },
+  {
+    "text": "To effectively scale NNAOV, what is the most critical shift required in the sales, CS, and renewals operating rhythm?",
+    "options": [
+      "Prioritizing Land and Expand by leading with core seats now and planning to address implementation gaps after the initial signature.",
+      "A shared accountability model where sales, CS, and renewals proactively align on customer outcomes and attrition risk at least six months before the renewal date.",
+      "Centering the operating rhythm on renewal managers to lead all commercial “saves” so sales and CS can focus exclusively on new growth opportunities.",
+      "Maintaining specialized focus where sales and renewals target commercial metrics while Customer Success targets adoption and health metrics."
+    ],
+    "answer": "A shared accountability model where sales, CS, and renewals proactively align on customer outcomes and attrition risk at least six months before the renewal date."
+  }
+]
